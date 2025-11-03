@@ -14,6 +14,23 @@ services:
     #   - ./default.conf:/etc/nginx/conf.d/default.conf:ro  # Monter la config NGINX en lecture seule
     #   - ./html:/var/www/html  # Optionnel : monter un dossier pour ton site web
     restart: unless-stopped   # Redémarrage automatique sauf si conteneur arrêté manuellement
+  
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    expose:
+      - "9000"
+    volumes:
+      - ./requirements/wordpress/wordpress_data:/var/www/html
+    environment:
+      - WORDPRESS_DB_HOST=mariadb:3306
+      - WORDPRESS_DB_USER=user
+      - WORDPRESS_DB_PASSWORD=userpassword
+      - WORDPRESS_DB_NAME=mydatabase
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+  
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb
@@ -26,4 +43,7 @@ services:
       MYSQL_USER: user                     # utilisateur secondaire
       MYSQL_PASSWORD: userpassword         # mot de passe de l'utilisateur
     volumes:
-      - ./requirements/mariadb/db_data:/var/lib/mysql   # volume persistant pour les données
+      - mariadb_data:/var/lib/mysql   # volume persistant pour les données
+
+volumes:
+  mariadb_data:
