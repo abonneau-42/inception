@@ -9,6 +9,7 @@ services:
     volumes:
         - ../secrets/certs/server.crt:/etc/nginx/certs/server.crt:ro
         - ../secrets/certs/server.key:/etc/nginx/certs/server.key:ro
+        - wordpress_data:/var/www/html
         # - ./requirements/wordpress/wordpress_data:/var/www/html
     # volumes:
     #   - ./certs:/etc/nginx/certs  # Monter les certificats pour qu'ils soient persistants

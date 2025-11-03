@@ -22,6 +22,7 @@ RUN wget https://wordpress.org/latest.tar.gz && \
 # Donner les bons droits
 RUN chown -R www-data:www-data /var/www/html
 
+RUN sed -i 's/listen = .*/listen = 0.0.0.0:9000/' /etc/php/8.2/fpm/pool.d/www.conf
 # Exposer le port du PHP-FPM
 EXPOSE 9000
 
