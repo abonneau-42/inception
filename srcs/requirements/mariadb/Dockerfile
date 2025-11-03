@@ -44,7 +44,10 @@ RUN mkdir -p /var/run/mysqld
 RUN chown -R mysql:mysql /var/run/mysqld
 RUN chmod 755 /var/run/mysqld
 
+
 COPY launch.sh /launch.sh
 RUN chmod +x /launch.sh
+
+RUN sed -i 's/^bind-address\s*=.*$/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 CMD ["/launch.sh"]
