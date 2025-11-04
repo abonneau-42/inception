@@ -10,10 +10,6 @@ RUN apt update && apt install -y nginx openssl && rm -rf /var/lib/apt/lists/*
 # Création des répertoires
 RUN mkdir -p /etc/nginx/certs /var/www/html
 
-# Copie du certificat et de la clé (tu peux aussi les générer à la volée)
-# COPY certs/server.crt /etc/nginx/certs/server.crt
-# COPY certs/server.key /etc/nginx/certs/server.key
-
 # Copie du fichier de configuration nginx
 COPY default.conf /etc/nginx/conf.d/default.conf
 

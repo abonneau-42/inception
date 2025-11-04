@@ -32,15 +32,25 @@ fi
 if ! wp core is-installed --allow-root; then
   echo "🌍 Installation de WordPress..."
   wp core install \
-    --url="$WORDPRESS_URL" \
+    --url="abonneau.42.fr" \
     --title="$WORDPRESS_TITLE" \
     --admin_user="$WORDPRESS_ADMIN_USER" \
     --admin_password="$WORDPRESS_ADMIN_PASSWORD" \
     --admin_email="$WORDPRESS_ADMIN_EMAIL" \
     --skip-email \
     --allow-root
+
+  # echo "🔄 Mise à jour de l’URL du site..."
+  # wp option update home 'https://abonneau.42.fr' --allow-root
+  # wp option update siteurl 'https://abonneau.42.fr' --allow-root
 else
   echo "✅ WordPress déjà installé."
+fi
+
+# Create a new wordpress user if it doesn't exist
+if ! wp user get "$WORDPRESS_USER" --allow-root &> /dev/null; then
+  echo "👤 Création de l’utilisateur WordPress '$WORDPRESS_USER'..."
+  wp user create "$WORDPRESS_USER" "$WORDPRESS_USER_EMAIL" --role=author --user_pass="$WORDPRESS_USER_PASSWORD" --allow-root
 fi
 
 # Droits
