@@ -3,15 +3,13 @@ set -e
 
 WP_PATH="/var/www/html"
 
-
-
 cd "$WP_PATH"
 
 # Variables nécessaires
-: "${WORDPRESS_DB_HOST:?Variable WORDPRESS_DB_HOST manquante}"
-: "${WORDPRESS_DB_USER:?Variable WORDPRESS_DB_USER manquante}"
-: "${WORDPRESS_DB_PASSWORD:?Variable WORDPRESS_DB_PASSWORD manquante}"
-: "${WORDPRESS_DB_NAME:?Variable WORDPRESS_DB_NAME manquante}"
+# : "${WORDPRESS_DB_HOST:?Variable WORDPRESS_DB_HOST manquante}"
+# : "${WORDPRESS_DB_USER:?Variable WORDPRESS_DB_USER manquante}"
+# : "${WORDPRESS_DB_PASSWORD:?Variable WORDPRESS_DB_PASSWORD manquante}"
+# : "${WORDPRESS_DB_NAME:?Variable WORDPRESS_DB_NAME manquante}"
 
 # Vérifie si wp-cli est accessible
 if ! command -v wp &> /dev/null; then
@@ -40,21 +38,16 @@ fi
 if ! wp core is-installed --allow-root; then
   echo "🌍 Installation de WordPress..."
   wp core install \
-    --url="${WORDPRESS_URL:-http://localhost}" \
-    --title="${WORDPRESS_TITLE:-Mon site WordPress}" \
-    --admin_user="${WORDPRESS_ADMIN_USER:-admin}" \
-    --admin_password="${WORDPRESS_ADMIN_PASSWORD:-admin}" \
-    --admin_email="${WORDPRESS_ADMIN_EMAIL:-admin@example.com}" \
+    --url="$WORDPRESS_URL" \
+    --title="$WORDPRESS_TITLE" \
+    --admin_user="$WORDPRESS_ADMIN_USER" \
+    --admin_password="$WORDPRESS_ADMIN_PASSWORD" \
+    --admin_email="$WORDPRESS_ADMIN_EMAIL" \
     --skip-email \
     --allow-root
 else
   echo "✅ WordPress déjà installé."
 fi
-
-# define('DB_NAME', 'mydatabase');
-# define('DB_USER', 'user');
-# define('DB_PASSWORD', 'userpassword');
-# define('DB_HOST', 'mariadb');  // doit correspondre au nom du service Docker
 
 # Droits
 chown -R www-data:www-data "$WP_PATH"

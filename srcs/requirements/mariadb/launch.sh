@@ -2,10 +2,10 @@
 set -e
 
 # Variables d'environnement avec valeurs par défaut
-MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-rootpassword}
-MYSQL_DATABASE=${MYSQL_DATABASE:-mydatabase}
-MYSQL_USER=${MYSQL_USER:-user}
-MYSQL_PASSWORD=${MYSQL_PASSWORD:-userpassword}
+# MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-rootpassword}
+# MYSQL_DATABASE=${MYSQL_DATABASE:-mydatabase}
+# MYSQL_USER=${MYSQL_USER:-user}
+# MYSQL_PASSWORD=${MYSQL_PASSWORD:-userpassword}
 
 echo "🔧 Configuration de MariaDB..."
 
@@ -30,9 +30,9 @@ sleep 5
 
 echo "🧩 Exécution des commandes SQL supplémentaires..."
 mariadb -uroot -p${MYSQL_ROOT_PASSWORD} <<-EOSQL
-    CREATE DATABASE IF NOT EXISTS mydatabase;
-    CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY 'userpassword';
-    GRANT ALL PRIVILEGES ON mydatabase.* TO 'user'@'%';
+    CREATE DATABASE IF NOT EXISTS ${WORDPRESS_DB_NAME};
+    CREATE USER IF NOT EXISTS '${WORDPRESS_DB_USER}'@'%' IDENTIFIED BY '${WORDPRESS_DB_PASSWORD}';
+    GRANT ALL PRIVILEGES ON ${WORDPRESS_DB_NAME}.* TO '${WORDPRESS_DB_USER}'@'%';
     FLUSH PRIVILEGES;
 EOSQL
 

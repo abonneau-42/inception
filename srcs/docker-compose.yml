@@ -29,10 +29,15 @@ services:
     volumes:
       - wordpress_data:/var/www/html
     environment:
-      - WORDPRESS_DB_HOST=mariadb:3306
-      - WORDPRESS_DB_USER=user
-      - WORDPRESS_DB_PASSWORD=userpassword
-      - WORDPRESS_DB_NAME=mydatabase
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+      - WORDPRESS_URL=${WORDPRESS_URL}
+      - WORDPRESS_TITLE=${WORDPRESS_TITLE}
+      - WORDPRESS_ADMIN_USER=${WORDPRESS_ADMIN_USER}
+      - WORDPRESS_ADMIN_PASSWORD=${WORDPRESS_ADMIN_PASSWORD}
+      - WORDPRESS_ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
     depends_on:
       - mariadb
     restart: unless-stopped
@@ -46,10 +51,10 @@ services:
       - "3306:3306"
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: myrootpassword   # mot de passe root
-      MYSQL_DATABASE: mydatabase           # nom de la base initiale
-      MYSQL_USER: user                     # utilisateur secondaire
-      MYSQL_PASSWORD: userpassword         # mot de passe de l'utilisateur
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
     volumes:
       - mariadb_data:/var/lib/mysql   # volume persistant pour les données
     networks:
