@@ -5,14 +5,21 @@ WP_PATH="/var/www/html"
 
 cd "$WP_PATH"
 
-# Vérifie si wp-cli est accessible
-if ! command -v wp &> /dev/null; then
-  echo "❌ wp-cli introuvable"
-  exit 1
+
+# # Vérifie si wp-cli est accessible
+# if ! command -v wp &> /dev/null; then
+#   echo "❌ wp-cli introuvable"
+#   exit 1
+# fi
+
+# Si /var/www/html est vide 
+if [ -z "$(ls -A $WP_PATH)" ]; then
+  wp core download --path=/var/www/html --allow-root
 fi
 
 # Crée wp-config.php s'il n'existe pas
 if [ ! -f wp-config.php ]; then
+  # wp core download --path=/var/www/html --allow-root
   echo "⚙️  Création de wp-config.php via WP-CLI..."
   wp config create \
     --dbname="$WORDPRESS_DB_NAME" \
@@ -39,10 +46,6 @@ if ! wp core is-installed --allow-root; then
     --admin_email="$WORDPRESS_ADMIN_EMAIL" \
     --skip-email \
     --allow-root
-
-  # echo "🔄 Mise à jour de l’URL du site..."
-  # wp option update home 'https://abonneau.42.fr' --allow-root
-  # wp option update siteurl 'https://abonneau.42.fr' --allow-root
 else
   echo "✅ WordPress déjà installé."
 fi

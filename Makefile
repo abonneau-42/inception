@@ -8,7 +8,7 @@ all: up
 
 destroy: down
 	docker system prune -a --volumes -f
-	docker volume rm $$(docker volume ls -q) 2> /dev/null || true
+	rm -rf /home/abonneau/data
 
 re: destroy up
 
