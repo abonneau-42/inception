@@ -5,12 +5,6 @@ WP_PATH="/var/www/html"
 
 cd "$WP_PATH"
 
-# Variables nécessaires
-# : "${WORDPRESS_DB_HOST:?Variable WORDPRESS_DB_HOST manquante}"
-# : "${WORDPRESS_DB_USER:?Variable WORDPRESS_DB_USER manquante}"
-# : "${WORDPRESS_DB_PASSWORD:?Variable WORDPRESS_DB_PASSWORD manquante}"
-# : "${WORDPRESS_DB_NAME:?Variable WORDPRESS_DB_NAME manquante}"
-
 # Vérifie si wp-cli est accessible
 if ! command -v wp &> /dev/null; then
   echo "❌ wp-cli introuvable"
