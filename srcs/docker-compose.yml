@@ -14,7 +14,7 @@ services:
     depends_on:
       - wordpress
     networks:
-      - my_network
+      - network
   wordpress:
     build: 
       context: ./requirements/wordpress
@@ -38,7 +38,7 @@ services:
       - mariadb
     restart: unless-stopped
     networks:
-      - my_network
+      - network
   mariadb:
     build: 
       context: ./requirements/mariadb
@@ -53,7 +53,7 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
-      - my_network
+      - network
 volumes:
   mariadb_data:
     driver: local
@@ -68,5 +68,5 @@ volumes:
       device: /home/abonneau/data/wordpress_data
       o: bind
 networks:
-  my_network:
+  network:
     driver: bridge
