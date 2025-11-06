@@ -2,10 +2,10 @@ up:
 	mkdir -p /home/abonneau/data/wordpress_data /home/abonneau/data/mariadb_data
 	docker compose -p inception -f srcs/docker-compose.yml up -d --build
 
+
 down:
 	docker compose -p inception -f srcs/docker-compose.yml down
 
-all: up
 
 destroy: down
 	docker system prune -a --volumes -f
@@ -14,6 +14,26 @@ destroy: down
 	rm -rf /home/abonneau/data
 
 re: destroy up
+
+all: up
+
+
+
+
+bup:
+	mkdir -p /home/abonneau/data/wordpress_data /home/abonneau/data/mariadb_data
+	docker compose -p inception -f srcs_bonus/docker-compose.yml up -d --build
+
+bdown:
+	docker compose -p inception -f srcs_bonus/docker-compose.yml down
+
+bdestroy: bdown
+	docker system prune -a --volumes -f
+	(docker volume rm inception_mariadb_data || true)
+	(docker volume rm inception_wordpress_data || true)
+	rm -rf /home/abonneau/data
+
+bre: bdestroy bup
 
 ls:
 	@printf "\033[0;36m=== Container in use ===\033[0m\n"
