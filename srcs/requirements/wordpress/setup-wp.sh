@@ -5,7 +5,7 @@ WP_PATH="/var/www/html"
 
 cd "$WP_PATH"
 
-if [ -z "$(ls -A $WP_PATH)" ]; then
+if [ ! -d wp-content ]; then
   wp core download --path=/var/www/html --allow-root
 fi
 

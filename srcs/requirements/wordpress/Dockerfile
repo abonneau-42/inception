@@ -24,8 +24,7 @@ RUN apt update && apt install -y \
 
 WORKDIR /var/www/html
 
-RUN WP_CLI_VERSION=2.10.0 \
-    && wget https://github.com/wp-cli/wp-cli/releases/download/v${VERSION_WP_CLI}/wp-cli-${VERSION_WP_CLI}.phar \
+RUN wget https://github.com/wp-cli/wp-cli/releases/download/v${VERSION_WP_CLI}/wp-cli-${VERSION_WP_CLI}.phar \
     && chmod +x wp-cli-${VERSION_WP_CLI}.phar \
     && mv wp-cli-${VERSION_WP_CLI}.phar /usr/local/bin/wp
 

@@ -1,25 +1,29 @@
 services:
   nginx:
-    build: ./requirements/nginx
+    build: 
+      context: ./requirements/nginx
     container_name: nginx
+    image: nginx
     ports:
       - "443:443"
     volumes:
         - ../secrets/certs/server.crt:/etc/nginx/certs/server.crt:ro
         - ../secrets/certs/server.key:/etc/nginx/certs/server.key:ro
-        - /home/abonneau/data/wordpress_data:/var/www/html
+        - wordpress_data:/var/www/html
     restart: unless-stopped
     depends_on:
       - wordpress
     networks:
       - my_network
   wordpress:
-    build: ./requirements/wordpress
+    build: 
+      context: ./requirements/wordpress
     container_name: wordpress
+    image: wordpress
     expose:
       - "9000"
     volumes:
-      - /home/abonneau/data/wordpress_data:/var/www/html
+      - wordpress_data:/var/www/html
     environment:
       - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
       - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
@@ -36,10 +40,10 @@ services:
     networks:
       - my_network
   mariadb:
-    build: ./requirements/mariadb
+    build: 
+      context: ./requirements/mariadb
     container_name: mariadb
-    ports:
-      - "3306:3306"
+    image: mariadb
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -47,12 +51,22 @@ services:
       - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
       - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
     volumes:
-      - /home/abonneau/data/mariadb_data:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     networks:
       - my_network
 volumes:
   mariadb_data:
+    driver: local
+    driver_opts:
+      type: volume
+      device: /home/abonneau/data/mariadb_data
+      o: bind
   wordpress_data:
+    driver: local
+    driver_opts:
+      type: volume
+      device: /home/abonneau/data/wordpress_data
+      o: bind
 networks:
   my_network:
     driver: bridge

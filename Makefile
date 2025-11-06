@@ -1,4 +1,5 @@
 up:
+	mkdir -p /home/abonneau/data/wordpress_data /home/abonneau/data/mariadb_data
 	docker compose -f srcs/docker-compose.yml up -d --build
 
 down:
