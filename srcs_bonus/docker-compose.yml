@@ -7,6 +7,7 @@ services:
     ports:
       - "443:443"
       - "8081:8081"
+      - "8082:8082"
     volumes:
         - ../secrets/certs/server.crt:/etc/nginx/certs/server.crt:ro
         - ../secrets/certs/server.key:/etc/nginx/certs/server.key:ro
@@ -71,6 +72,29 @@ services:
     networks:
       - network
 
+  ftp_server:
+    build:
+      context: ./requirements/ftp_server
+    container_name: ftp_server
+    ports:
+      - "20:20"
+      - "21:21"
+      - "21100-21110:21100-21110"
+    volumes:
+      - wordpress_data:/home/${FTP_USER}
+    environment:
+      FTP_USER: ${FTP_USER}
+      FTP_PASSWORD: ${FTP_PASSWORD}
+    restart: unless-stopped
+
+  adminer:
+    build: 
+      context: ./requirements/adminer
+    container_name: adminer
+    networks:
+      - network
+    depends_on:
+      - mariadb
 
 volumes:
   mariadb_data:
