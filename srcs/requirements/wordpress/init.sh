@@ -35,6 +35,16 @@ else
   echo "✅ WordPress déjà installé."
 fi
 
+if ! wp user get "$WORDPRESS_RANDOM_USER" --allow-root &> /dev/null; then
+  echo "👤 Random user creation..."
+  wp user create "$WORDPRESS_RANDOM_USER" "$WORDPRESS_RANDOM_EMAIL" \
+    --role=author \
+    --user_pass="$WORDPRESS_RANDOM_PASSWORD" \
+    --allow-root
+else
+  echo "✅ Random user already exists."
+fi
+
 chown -R www-data:www-data /var/www/html
 
 echo "🚀 Démarrage de PHP-FPM..."

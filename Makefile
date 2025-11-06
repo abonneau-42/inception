@@ -16,15 +16,15 @@ destroy: down
 re: destroy up
 
 ls:
-	@printf "\033[0;36m=== Containers en cours d'exécution ===\033[0m\n"
+	@printf "\033[0;36m=== Container in use ===\033[0m\n"
 	docker ps
-	@printf "\n\033[0;32m=== Images Docker disponibles ===\033[0m\n"
+	@printf "\n\033[0;36m=== Docker Images ===\033[0m\n"
 	docker image ls
-	@printf "\n\033[1;33m=== Tous les containers ===\033[0m\n"
+	@printf "\n\033[0;36m=== Docker containers ===\033[0m\n"
 	docker container ls -a
-	@printf "\n\033[0;36m=== Réseaux Docker ===\033[0m\n"
+	@printf "\n\033[0;36m=== Docker networks ===\033[0m\n"
 	docker network ls
-	@printf "\n\033[0;32m=== Volumes Docker ===\033[0m\n"
+	@printf "\n\033[0;36m=== Docker volumes ===\033[0m\n"
 	docker volume ls
 
 .PHONY: up down all destroy re ls
