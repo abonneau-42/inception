@@ -6,7 +6,7 @@ ENV VERSION_NGINX="1.22.1-9+deb12u3"
 RUN apt update && apt install -y --no-install-recommends \
     nginx=${VERSION_NGINX} && \
     rm -rf /var/lib/apt/lists/* && \
-    mkdir -p /etc/nginx/certs /var/www/html
+    mkdir -p /etc/nginx/certs /var/www/html/blog /var/www/html/static
 
 COPY default.conf /etc/nginx/conf.d/default.conf
 

@@ -21,7 +21,7 @@ all: up
 
 
 bup:
-	mkdir -p /home/abonneau/data/wordpress_data /home/abonneau/data/mariadb_data
+	mkdir -p /home/abonneau/data/wordpress_data /home/abonneau/data/mariadb_data /home/abonneau/data/static_website_data
 	docker compose -p inception -f srcs_bonus/docker-compose.yml up -d --build
 
 bdown:
@@ -31,7 +31,8 @@ bdestroy: bdown
 	docker system prune -a --volumes -f
 	(docker volume rm inception_mariadb_data || true)
 	(docker volume rm inception_wordpress_data || true)
-	rm -rf /home/abonneau/data
+	(docker volume rm inception_static_website_data || true)
+	sudo rm -rf /home/abonneau/data
 
 bre: bdestroy bup
 
