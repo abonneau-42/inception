@@ -9,6 +9,8 @@ all: up
 
 destroy: down
 	docker system prune -a --volumes -f
+	(docker volume rm inception_mariadb_data || true)
+	(docker volume rm inception_wordpress_data || true)
 	rm -rf /home/abonneau/data
 
 re: destroy up
