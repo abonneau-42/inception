@@ -6,7 +6,7 @@ if [ ! -d wp-content ]; then
 fi
 
 if [ ! -f wp-config.php ]; then
-  echo "⚙️  Création de wp-config.php via WP-CLI..."
+  echo "⚙️  Creating wp-config.php via WP-CLI..."
   wp config create \
     --dbname="$WORDPRESS_DB_NAME" \
     --dbuser="$WORDPRESS_DB_USER" \
@@ -15,14 +15,13 @@ if [ ! -f wp-config.php ]; then
     --path=/var/www/html \
     --allow-root
 
-  echo "🔑 Génération automatique des clés de sécurité..."
   wp config shuffle-salts --allow-root
 else
-  echo "✅ wp-config.php déjà présent, aucun changement."
+  echo "✅ wp-config.php already exists, no changes."
 fi
 
 if ! wp core is-installed --allow-root; then
-  echo "🌍 Installation de WordPress..."
+  echo "🌍 Installing WordPress..."
   wp core install \
     --url="abonneau.42.fr" \
     --title="$WORDPRESS_TITLE" \
@@ -32,7 +31,7 @@ if ! wp core is-installed --allow-root; then
     --skip-email \
     --allow-root
 else
-  echo "✅ WordPress déjà installé."
+  echo "✅ WordPress already installed."
 fi
 
 if ! wp user get "$WORDPRESS_RANDOM_USER" --allow-root &> /dev/null; then
@@ -47,5 +46,5 @@ fi
 
 chown -R www-data:www-data /var/www/html
 
-echo "🚀 Démarrage de PHP-FPM..."
+echo "🚀 Starting PHP-FPM..."
 exec php-fpm8.2 -F
