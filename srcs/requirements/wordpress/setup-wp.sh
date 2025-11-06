@@ -5,21 +5,11 @@ WP_PATH="/var/www/html"
 
 cd "$WP_PATH"
 
-
-# # Vérifie si wp-cli est accessible
-# if ! command -v wp &> /dev/null; then
-#   echo "❌ wp-cli introuvable"
-#   exit 1
-# fi
-
-# Si /var/www/html est vide 
 if [ -z "$(ls -A $WP_PATH)" ]; then
   wp core download --path=/var/www/html --allow-root
 fi
 
-# Crée wp-config.php s'il n'existe pas
 if [ ! -f wp-config.php ]; then
-  # wp core download --path=/var/www/html --allow-root
   echo "⚙️  Création de wp-config.php via WP-CLI..."
   wp config create \
     --dbname="$WORDPRESS_DB_NAME" \
@@ -35,7 +25,6 @@ else
   echo "✅ wp-config.php déjà présent, aucun changement."
 fi
 
-# Vérifie si WordPress est installé
 if ! wp core is-installed --allow-root; then
   echo "🌍 Installation de WordPress..."
   wp core install \
@@ -50,15 +39,7 @@ else
   echo "✅ WordPress déjà installé."
 fi
 
-# Create a new wordpress user if it doesn't exist
-if ! wp user get "$WORDPRESS_USER" --allow-root &> /dev/null; then
-  echo "👤 Création de l’utilisateur WordPress '$WORDPRESS_USER'..."
-  wp user create "$WORDPRESS_USER" "$WORDPRESS_USER_EMAIL" --role=author --user_pass="$WORDPRESS_USER_PASSWORD" --allow-root
-fi
-
-# Droits
 chown -R www-data:www-data "$WP_PATH"
 
-# Lancer php-fpm
 echo "🚀 Démarrage de PHP-FPM..."
 exec php-fpm8.2 -F
