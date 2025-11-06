@@ -1,7 +1,6 @@
 FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
-
 ENV VERSION_MARIADB="1:10.11.14-0+deb12u2"
 ENV VERSION_GOSU="1.14-1+b10"
 ENV VERSION_WGET="1.21.3-1+deb12u1"
@@ -10,6 +9,7 @@ ENV VERSION_LESS="590-2.1~deb12u2"
 ENV VERSION_PHP="2:8.2+93"
 ENV VERSION_UNZIP="6.0-28"
 ENV VERSION_CA_CERTS="20230311+deb12u1"
+ENV VERSION_WP_CLI="2.12.0"
 
 RUN apt update && apt install -y \
     php-fpm=${VERSION_PHP} \
@@ -24,8 +24,10 @@ RUN apt update && apt install -y \
 
 WORKDIR /var/www/html
 
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+RUN WP_CLI_VERSION=2.10.0 \
+    && wget https://github.com/wp-cli/wp-cli/releases/download/v${VERSION_WP_CLI}/wp-cli-${VERSION_WP_CLI}.phar \
+    && chmod +x wp-cli-${VERSION_WP_CLI}.phar \
+    && mv wp-cli-${VERSION_WP_CLI}.phar /usr/local/bin/wp
 
 COPY setup-wp.sh /usr/local/bin/setup-wp.sh
 RUN chmod +x /usr/local/bin/setup-wp.sh
