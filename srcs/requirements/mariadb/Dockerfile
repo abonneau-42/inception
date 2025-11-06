@@ -3,7 +3,7 @@ FROM debian:bookworm-slim
 ENV DEBIAN_FRONTEND=noninteractive
 ENV VERSION_MARIADB="1:10.11.14-0+deb12u2"
 
-COPY launch.sh /launch.sh
+COPY init.sh /init.sh
 
 RUN apt update && \
     apt install -y --no-install-recommends \
@@ -13,6 +13,6 @@ RUN apt update && \
     mkdir -p /var/lib/mysql /var/run/mysqld && \
     chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && \
     chmod 755 /var/run/mysqld && \
-    chmod +x /launch.sh
+    chmod +x /init.sh
 
-CMD ["/launch.sh"]
+CMD ["/init.sh"]
