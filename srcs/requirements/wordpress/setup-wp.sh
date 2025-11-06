@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-WP_PATH="/var/www/html"
-
-cd "$WP_PATH"
-
 if [ ! -d wp-content ]; then
   wp core download --path=/var/www/html --allow-root
 fi
@@ -16,7 +12,7 @@ if [ ! -f wp-config.php ]; then
     --dbuser="$WORDPRESS_DB_USER" \
     --dbpass="$WORDPRESS_DB_PASSWORD" \
     --dbhost="$WORDPRESS_DB_HOST" \
-    --path="$WP_PATH" \
+    --path=/var/www/html \
     --allow-root
 
   echo "🔑 Génération automatique des clés de sécurité..."
@@ -39,7 +35,7 @@ else
   echo "✅ WordPress déjà installé."
 fi
 
-chown -R www-data:www-data "$WP_PATH"
+chown -R www-data:www-data /var/www/html
 
 echo "🚀 Démarrage de PHP-FPM..."
 exec php-fpm8.2 -F
