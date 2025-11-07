@@ -8,6 +8,7 @@ services:
       - "443:443"
       - "8081:8081"
       - "8082:8082"
+      - "3000:3000"
     volumes:
         - ../secrets/certs/server.crt:/etc/nginx/certs/server.crt:ro
         - ../secrets/certs/server.key:/etc/nginx/certs/server.key:ro
@@ -17,6 +18,8 @@ services:
     depends_on:
       - wordpress
       - static_website
+      - adminer
+      - portfolio
     networks:
       - network
   wordpress:
@@ -72,6 +75,19 @@ services:
     networks:
       - network
 
+  portfolio:
+    build: 
+      context: ./requirements/portfolio
+    container_name: portfolio
+    image: portfolio
+    restart: unless-stopped
+    volumes:
+      - portfolio_data:/app
+    networks:
+      - network
+    expose:
+      - "3000"
+
   ftp_server:
     build:
       context: ./requirements/ftp_server
@@ -114,6 +130,12 @@ volumes:
     driver_opts:
       type: volume
       device: /home/abonneau/data/static_website_data
+      o: bind
+  portfolio_data:
+    driver: local
+    driver_opts:
+      type: volume
+      device: /home/abonneau/data/portfolio_data
       o: bind
 networks:
   network:
