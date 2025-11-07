@@ -1,9 +1,10 @@
 FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV VERSION_VSFTPD="3.0.3-13+b2"
 
-RUN apt-get update && \
-    apt-get install -y vsftpd && \
+RUN apt update && \
+    apt install -y vsftpd=${VERSION_VSFTPD} && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/run/vsftpd /var/run/vsftpd/empty /var/ftp /home/vsftpd
