@@ -76,6 +76,7 @@ wp redis enable --path="/var/www/html" --allow-root || echo "ℹ️ Redis cache 
 
 
 chown -R www-data:www-data /var/www/html
+chmod -R g+w /var/www/html
 
 echo "🚀 Starting PHP-FPM..."
 exec php-fpm8.2 -F
