@@ -43,6 +43,7 @@ services:
       - WORDPRESS_RANDOM_EMAIL=${WORDPRESS_RANDOM_EMAIL}
     depends_on:
       - mariadb
+      - redis
     restart: unless-stopped
     networks:
       - network
@@ -104,10 +105,19 @@ services:
     build: 
       context: ./requirements/adminer
     container_name: adminer
+    image: adminer
     networks:
       - network
     depends_on:
       - mariadb
+
+  redis:
+    build:
+      context: ./requirements/redis
+    container_name: redis
+    image: redis
+    networks:
+      - network
 
 volumes:
   mariadb_data:
