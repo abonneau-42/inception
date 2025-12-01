@@ -1,6 +1,6 @@
 services:
   nginx:
-    build: 
+    build:
       context: ./requirements/nginx
     container_name: nginx
     image: nginx
@@ -15,8 +15,9 @@ services:
       - wordpress
     networks:
       - network
+
   wordpress:
-    build: 
+    build:
       context: ./requirements/wordpress
     container_name: wordpress
     image: wordpress
@@ -42,8 +43,9 @@ services:
     restart: unless-stopped
     networks:
       - network
+
   mariadb:
-    build: 
+    build:
       context: ./requirements/mariadb
     container_name: mariadb
     image: mariadb
@@ -57,6 +59,7 @@ services:
       - mariadb_data:/var/lib/mysql
     networks:
       - network
+
 volumes:
   mariadb_data:
     driver: local
@@ -70,6 +73,7 @@ volumes:
       type: volume
       device: /home/abonneau/data/wordpress_data
       o: bind
+
 networks:
   network:
     driver: bridge

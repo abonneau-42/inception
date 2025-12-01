@@ -1,6 +1,6 @@
 services:
   nginx:
-    build: 
+    build:
       context: ./requirements/nginx
     container_name: nginx
     image: nginx
@@ -19,8 +19,9 @@ services:
       - portfolio
     networks:
       - network
+
   wordpress:
-    build: 
+    build:
       context: ./requirements/wordpress
     container_name: wordpress
     image: wordpress
@@ -47,8 +48,9 @@ services:
     restart: unless-stopped
     networks:
       - network
+
   mariadb:
-    build: 
+    build:
       context: ./requirements/mariadb
     container_name: mariadb
     image: mariadb
@@ -62,8 +64,9 @@ services:
       - mariadb_data:/var/lib/mysql
     networks:
       - network
+
   static_website:
-    build: 
+    build:
       context: ./requirements/static_website
     container_name: static_website
     image: static_website
@@ -74,7 +77,7 @@ services:
       - network
 
   portfolio:
-    build: 
+    build:
       context: ./requirements/portfolio
     container_name: portfolio
     image: portfolio
@@ -102,7 +105,7 @@ services:
     restart: unless-stopped
 
   adminer:
-    build: 
+    build:
       context: ./requirements/adminer
     container_name: adminer
     image: adminer
@@ -144,6 +147,7 @@ volumes:
       type: volume
       device: /home/abonneau/data/portfolio_data
       o: bind
+
 networks:
   network:
     driver: bridge
