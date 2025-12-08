@@ -21,7 +21,7 @@ cd <project-folder>
 Give execution rights to the certificate creation script:
 
 ```bash
-chmod 777 create_certs.sh
+chmod +x create_certs.sh
 ```
 
 Run the script to generate the TLS certificates:
