@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-echo "🔧 Configuring MariaDB..."
+echo "Configuring MariaDB..."
 
 if [ ! -d /var/lib/mysql/mysql ]; then
-    echo "🆕 Initializing the database..."
+    echo "Initializing the database..."
     mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 fi
 
@@ -18,6 +18,6 @@ EOSQL
     touch /var/lib/mysql/.initialized
     exec mysqld --datadir=/var/lib/mysql --init-file=/tmp/init.sql --bind-address=0.0.0.0 --user=mysql
 else
-    echo "📡 Launching MariaDB..."
+    echo "Launching MariaDB..."
     exec mysqld --datadir=/var/lib/mysql --bind-address=0.0.0.0 --user=mysql
 fi

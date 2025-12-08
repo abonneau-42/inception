@@ -6,7 +6,7 @@ if [ ! -d wp-content ]; then
 fi
 
 if [ ! -f wp-config.php ]; then
-  echo "⚙️  Creating wp-config.php via WP-CLI..."
+  echo "Creating wp-config.php via WP-CLI..."
   wp config create \
     --dbname="$WORDPRESS_DB_NAME" \
     --dbuser="$WORDPRESS_DB_USER" \
@@ -17,11 +17,11 @@ if [ ! -f wp-config.php ]; then
 
   wp config shuffle-salts --allow-root
 else
-  echo "✅ wp-config.php already exists, no changes."
+  echo "wp-config.php already exists, no changes."
 fi
 
 if ! wp core is-installed --allow-root; then
-  echo "🌍 Installing WordPress..."
+  echo "Installing WordPress..."
   wp core install \
     --url="abonneau.42.fr" \
     --title="$WORDPRESS_TITLE" \
@@ -31,7 +31,7 @@ if ! wp core is-installed --allow-root; then
     --skip-email \
     --allow-root
 else
-  echo "✅ WordPress already installed."
+  echo "WordPress already installed."
 fi
 
 for var in WP_REDIS_HOST WP_REDIS_PORT WP_REDIS_PASSWORD WP_REDIS_SCHEME; do
@@ -54,29 +54,29 @@ for var in WP_REDIS_HOST WP_REDIS_PORT WP_REDIS_PASSWORD WP_REDIS_SCHEME; do
 done
 
 if ! wp user get "$WORDPRESS_RANDOM_USER" --allow-root &> /dev/null; then
-  echo "👤 Random user creation..."
+  echo "Random user creation..."
   wp user create "$WORDPRESS_RANDOM_USER" "$WORDPRESS_RANDOM_EMAIL" \
     --role=author \
     --user_pass="$WORDPRESS_RANDOM_PASSWORD" \
     --allow-root
 else
-  echo "✅ Random user already exists."
+  echo "Random user already exists."
 fi
 
 
 if ! wp plugin is-installed redis-cache --path="/var/www/html" --allow-root; then
-  echo "📦 Installing Redis Object Cache plugin..."
+  echo "Installing Redis Object Cache plugin..."
   wp plugin install redis-cache --activate --path="/var/www/html" --allow-root
 else
-  echo "✅ Redis plugin already installed."
+  echo "Redis plugin already installed."
 fi
 
 echo "⚡ Enabling Redis object cache..."
-wp redis enable --path="/var/www/html" --allow-root || echo "ℹ️ Redis cache might already be enabled."
+wp redis enable --path="/var/www/html" --allow-root || echo "Redis cache might already be enabled."
 
 
 chown -R www-data:www-data /var/www/html
 chmod -R g+w /var/www/html
 
-echo "🚀 Starting PHP-FPM..."
+echo "Starting PHP-FPM..."
 exec php-fpm8.2 -F
